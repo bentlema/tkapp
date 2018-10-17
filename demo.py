@@ -22,10 +22,9 @@ statusbar_frame.pack(side="bottom", fill="x", expand=True, anchor="s")
 statusbar_label = ttk.Label(statusbar_frame, textvariable=status_text, anchor="w")
 statusbar_label.pack(side="left", fill="both", expand=True)
 
+#
 # Put your app code here...
-
-
+#
 
 # Start the Tkinter event loop
 root.mainloop()
-

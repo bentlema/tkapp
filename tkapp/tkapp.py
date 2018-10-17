@@ -1,8 +1,9 @@
 
 import tkinter as tk
 
+
 class AppRootWindow(tk.Frame):
-    ''' Create the Tk Application's root window -- root parameter must be the Tk root object '''
+    """ Create the Tk App root window -- root parameter must be the Tk root window """
 
     def __init__(self, root, window_width=320, window_height=240):
 
@@ -11,6 +12,9 @@ class AppRootWindow(tk.Frame):
 
         # Remember the Tk root window
         self.root = root
+
+        # The status_var can be "registered" with register_status_var() method
+        self.status_var = None
 
         # Set desired initial window dimensions
         self.window_width = window_width
@@ -27,12 +31,6 @@ class AppRootWindow(tk.Frame):
 
         # Configure window minimum size
         self.root.minsize(320, 240)
-
-        # Debugging
-        #print("                 Max size: {}x{}".format(self.window_max_width, self.window_max_height))
-        #print("Current window dimentions: {}x{}".format(self.root.winfo_width(), self.root.winfo_height()))
-        #print("        Screen dimentions: {}x{}".format(self.root.winfo_screenwidth(), self.root.winfo_screenheight()))
-        #print("--------------------------------------------------------------------------------")
 
         # Set default window transparency
         self.root.attributes("-alpha", 0.85)
@@ -57,9 +55,7 @@ class AppRootWindow(tk.Frame):
         # Initial size and placement of window
         self.update_window_geometry()
 
-
     def window_update_callback(self, event):
-        #print(event)
         # The primary screen top/left pixel will be at (0,0) so if we are negative, we are probably
         # on the secondary display, or if we are positive greater than the width of our primary display
         # TODO: need to consider that if a secondary display is in use, it could be on either side of
@@ -79,21 +75,16 @@ class AppRootWindow(tk.Frame):
                 if self.status_var:
                     self.status_var.set("We are probably on the PRIMARY display")
 
-        #print("                 Max size: {}".format(self.root.maxsize()))
-        #print("        Screen dimentions: {}x{}".format(self.root.winfo_screenwidth(), self.root.winfo_screenheight()))
-        #print("Current window dimentions: {}x{}".format(self.root.winfo_width(), self.root.winfo_height()))
-        #print("--------------------------------------------------------------------------------")
-
     def get_screen_size(self):
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
-        return((width, height))
+        return width, height
 
     def set_window_max_size(self, width=0, height=0):
-        '''
+        """
         Configure the maximum window size to be given width and height
         If width and/or height are not given, will base them off of screen width/height
-        '''
+        """
         if width <= 0:
             self.window_max_width = int(self.screen_width * .99)
         else:
@@ -119,7 +110,7 @@ class AppRootWindow(tk.Frame):
 
     # and then make the properties above call this update function when the setters are used
     def update_window_geometry(self):
-        ''' set the root window size and position '''
+        """ set the root window size and position """
         geometry = "{}x{}+{}+{}".format(self.window_width, self.window_height, self.window_loc_x, self.window_loc_y)
         self.root.geometry(geometry)
 
